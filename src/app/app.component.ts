@@ -31,7 +31,7 @@ export class AppComponent implements OnInit{
 
   openModal(){
 
-    this.studentObj = new   Student();
+    
 
       const model = document.getElementById("exampleModal");
 
@@ -44,6 +44,7 @@ export class AppComponent implements OnInit{
 
   closeModal()
   {
+    this.studentObj = new   Student();
     if (this.model != null) {
       this.model.nativeElement.style.display = 'none';
     }
@@ -55,6 +56,9 @@ export class AppComponent implements OnInit{
     if(isAvilable)
     {
       const oldArr = JSON.parse(isAvilable);
+
+      this.studentObj.id = oldArr.length + 1;
+
       oldArr.push(this.studentObj);
 
       this.studentList = oldArr;
@@ -65,12 +69,33 @@ export class AppComponent implements OnInit{
     {
       const newArr = [];
       newArr.push(this.studentObj);
-
+      this.studentObj.id = 1;
       this.studentList = newArr;
 
       localStorage.setItem('angular_practice', JSON.stringify(newArr));
     }
     this.closeModal();
+  }
+
+  onEdit(item: Student){
+    this.studentObj = item;
+    this.openModal();
+  }
+
+  updateStudent(){
+    const currentData = this.studentList.find(m => m.id === this.studentObj.id);
+
+      if(currentData != undefined){
+        currentData.name = this.studentObj.name;
+        currentData.address =  this.studentObj.address;
+        currentData.mobileNo =  this.studentObj.mobileNo;
+      }
+      localStorage.setItem('angular_practice', JSON.stringify(this.studentList));
+      this.closeModal();
+  }
+
+  onDelete(){
+
   }
 
 }
