@@ -94,8 +94,13 @@ export class AppComponent implements OnInit{
       this.closeModal();
   }
 
-  onDelete(){
-
+  onDelete(item: Student){
+    const isDelet = confirm("Are you sure want to Delete");
+    if(isDelet) {
+      const currentRecord =  this.studentList.findIndex(m=> m.id === this.studentObj.id);
+      this.studentList.splice(currentRecord,1);
+      localStorage.setItem('angular17crud', JSON.stringify(this.studentList));
+    }
   }
 
 }
